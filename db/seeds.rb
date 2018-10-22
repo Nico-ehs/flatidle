@@ -7,7 +7,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 User.create(name: "User 1")
-Game.create(start_time: Time.now, updated_time: Time.now, user_id: 1)
+
+Game.create(start_time: DateTime.new, updated_time: DateTime.new, user_id: 1)
 
 Producer.create(name: "Producer 1", amount: 1, base_rate: 5, price: 100, game_id: 1)
 Producer.create(name: "Producer 2", amount: 1, base_rate: 25, price: 1000, game_id: 1)
@@ -19,4 +20,4 @@ Upgrade.create(name: "5x Upgrade 1", price: 10, function_name: "5x", amount: 1)
 UpgradePurchase.create(upgrade_id: 1, game_id: 1)
 UpgradePurchase.create(upgrade_id: 2, game_id: 1)
 
-Stocks.create(resource_name: "Resource 1", amount: 1, game_id: 1)
+Stock.create(resource_name: "Resource 1", amount: 1, game_id: 1)

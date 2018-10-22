@@ -1,4 +1,4 @@
 class UpgradePurchase < ApplicationRecord
-	belongs_to :games
-	belongs_to :upgrades
+	belongs_to :game
+	belongs_to :upgrade
 end
