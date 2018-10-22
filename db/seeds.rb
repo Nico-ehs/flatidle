@@ -8,7 +8,7 @@
 
 User.create(name: "User 1")
 
-Game.create(start_time: DateTime.new, updated_time: DateTime.new, user_id: 1)
+Game.create(start_time: DateTime.now, updated_time: DateTime.now, user_id: 1)
 
 Producer.create(name: "Producer 1", amount: 1, base_rate: 5, price: 100, game_id: 1)
 Producer.create(name: "Producer 2", amount: 1, base_rate: 25, price: 1000, game_id: 1)

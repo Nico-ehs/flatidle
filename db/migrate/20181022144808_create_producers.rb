@@ -4,6 +4,7 @@ class CreateProducers < ActiveRecord::Migration[5.2]
       t.string :name
       t.integer :amount
       t.float :base_rate
+      t.float :ajusted_rate
       t.integer :price
       t.integer :game_id
 

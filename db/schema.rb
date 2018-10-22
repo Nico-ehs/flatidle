@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2018_10_22_151056) do
     t.string "name"
     t.integer "amount"
     t.float "base_rate"
+    t.float "ajusted_rate"
     t.integer "price"
     t.integer "game_id"
     t.datetime "created_at", null: false
