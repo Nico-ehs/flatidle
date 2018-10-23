@@ -1,7 +1,9 @@
 class Game < ApplicationRecord
-    # t.datetime :start_time
-    # t.datetime :updated_time
-    belongs_to :user
+
+  # t.datetime :start_time
+  # t.datetime :updated_time
+  attr_accessor :seconds_passed
+	belongs_to :user
 
     has_many :stocks
     has_many :producers

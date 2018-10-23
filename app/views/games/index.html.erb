@@ -1,0 +1,10 @@
+<h2>All games</h2>
+
+<ul>
+  <% @games.each do |game| %>
+    <li>
+      <p><%= link_to "#{game.user_id.to_s}", game %></p>
+    </li>
+    <br>
+  <% end %>
+</ul>
