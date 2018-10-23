@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :games, only: [:show, :index]
   resources :users, only: [:show]
   root 'games#index'
+  get 'producers/:id/buy/:amount' => 'producers#buy'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
