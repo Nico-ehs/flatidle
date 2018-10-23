@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_22_151056) do
+ActiveRecord::Schema.define(version: 2018_10_23_195941) do
 
   create_table "games", force: :cascade do |t|
     t.datetime "start_time"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2018_10_22_151056) do
     t.string "name"
     t.integer "amount"
     t.float "base_rate"
-    t.float "ajusted_rate"
+    t.float "adjusted_rate"
     t.integer "price"
     t.integer "game_id"
     t.datetime "created_at", null: false

@@ -4,11 +4,18 @@ class UsersController < ApplicationController
     # end
 
     def create
-        @user = User.new(user_params)
+        @user = User.find_or_create_by(user_params)
         if @user.save
             session[:user_id] = @user.id
             #loads first game
-            redirect_to game_path(@user.games.first)
+            if @user.games.any?
+                redirect_to game_path(@user.games.first)
+            else
+                new_game = Game.new
+                @user.games << new_game
+                new_game.save!
+                redirect_to game_path(new_game)
+            end
         else
             render :'sessions/new'
         end

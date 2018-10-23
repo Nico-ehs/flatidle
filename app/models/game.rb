@@ -1,9 +1,9 @@
 class Game < ApplicationRecord
-
-  # t.datetime :start_time
-  # t.datetime :updated_time
-  attr_accessor :seconds_passed
-	belongs_to :user
+    # t.datetime :start_time
+    # t.datetime :updated_time
+    before_create :create_default_game
+    attr_accessor :seconds_passed
+    belongs_to :user
 
     has_many :stocks
     has_many :producers
@@ -38,9 +38,9 @@ class Game < ApplicationRecord
 
     def update_time
         self.updated_time=self.created_at unless self.updated_time
-        now=Time.now.round(0)
+        now = Time.now.round(0)
         # apply_upgrades
-        self.seconds_passed=(now-updated_time).to_i
+        self.seconds_passed = (now - updated_time).to_i
         run_ticks
         self.updated_time=now
         self.save
@@ -48,7 +48,7 @@ class Game < ApplicationRecord
 
 
     def run_ticks
-        main_stock=get_stock
+        main_stock = get_stock
         self.producers.each do |producer|
             main_stock.amount += (producer.amount*producer.base_rate*self.seconds_passed)
         end
@@ -57,11 +57,22 @@ class Game < ApplicationRecord
 
     def apply_upgrades
         self.producers.each do |producer|
-            producer.ajusted_rate = producer.base_rate
+            producer.adjusted_rate = producer.base_rate
             producer.save
         end
-        upgrade_purchases.upgrade.each do |upgrade|
+        upgrade_purchases.upgrades.each do |upgrade|
             self.send(upgrade.function_name)
+        end
+    end
+
+    private
+
+    def create_default_game
+        if stocks.empty? && producers.empty?
+            stock1 = Stock.create(resource_name: "Resource 1", amount: 0)
+            stocks << stock1
+            producer1 = Producer.create(name: "Producer 1", amount: 1, base_rate: 5, price: 100)
+            producers << producer1
         end
     end
 
@@ -71,7 +82,7 @@ end
 module UpgradeFuntions
     def x2
         self.producers.each do |producer|
-            producer.ajusted_rate=producer.ajusted_rate
+            producer.adjusted_rate = producer.adjusted_rate
             producer.save
         end
     end
