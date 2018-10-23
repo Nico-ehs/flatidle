@@ -9,4 +9,9 @@ class GamesController < ApplicationController
   end
   
   
+  def veiw_params
+    @params_hash=params
+  end
+  
+  
 end
