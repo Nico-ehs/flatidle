@@ -10,8 +10,8 @@ class Game < ApplicationRecord
     has_many :stocks
     has_many :producers
 
-    has_many :available_upgrades
-    has_many :upgrades, through: :available_upgrades
+    has_many :upgrade_purchases
+    has_many :upgrades, through: :upgrade_purchases
 
     include Unlock
 
@@ -69,26 +69,13 @@ class Game < ApplicationRecord
             self.send(upgrade.function_name)
         end
     end
-    
-    def unbought_upgrades 
-        available_upgrades.select {|el| !el.purchased }
-    end
-    
-    def bought_upgrades 
-        available_upgrades.select {|el| el.purchased }
-    end
-    
-    
-    def spend(price)
-        get_stock.amount -= price
-        get_stock.save
-    end
 
     private
 
     def create_default_game
         if stocks.empty? && producers.empty?
-            stock1 = Stock.create(resource_name: "Resource 1", amount: 0)
+            # set amount to 0 after adding generate button
+            stock1 = Stock.create(resource_name: "Resource 1", amount: 10)
             stocks << stock1
             producer1 = Producer.create(name: "Producer 1", amount: 0, base_price: 4, base_rate: 1.6, price: 4, growth_rate: 1.07)
             producers << producer1
