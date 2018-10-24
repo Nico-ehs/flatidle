@@ -10,8 +10,8 @@ class Game < ApplicationRecord
     has_many :stocks
     has_many :producers
 
-    has_many :upgrade_purchases
-    has_many :upgrades, through: :upgrade_purchases
+    has_many :available_upgrades
+    has_many :upgrades, through: :available_upgrades
 
     include Unlock
 
@@ -38,6 +38,20 @@ class Game < ApplicationRecord
 
     def get_stock
         stocks.first
+    end
+    
+    def unbought_upgrades 
+        available_upgrades.select {|el| !el.purchased }
+    end
+    
+    def bought_upgrades 
+        available_upgrades.select {|el| el.purchased }
+    end
+    
+    
+    def spend(price)
+        get_stock.amount -= price
+        get_stock.save
     end
 
     def update_time
