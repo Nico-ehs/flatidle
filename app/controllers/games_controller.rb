@@ -9,7 +9,7 @@ class GamesController < ApplicationController
   end
   
   
-  def veiw_params
+  def view_params
     @params_hash=params
   end
   
