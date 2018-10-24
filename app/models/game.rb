@@ -2,7 +2,9 @@ class Game < ApplicationRecord
     # t.datetime :start_time
     # t.datetime :updated_time
     before_create :create_default_game
+
     attr_accessor :seconds_passed
+
     belongs_to :user
 
     has_many :stocks
@@ -10,6 +12,8 @@ class Game < ApplicationRecord
 
     has_many :available_upgrades
     has_many :upgrades, through: :available_upgrades
+
+    include Unlock
 
 
     def output
@@ -49,6 +53,7 @@ class Game < ApplicationRecord
 
     def run_ticks
         main_stock = get_stock
+        apply_unlocks
         self.producers.each do |producer|
             main_stock.amount += (producer.amount*producer.base_rate*self.seconds_passed)
         end
@@ -85,7 +90,7 @@ class Game < ApplicationRecord
         if stocks.empty? && producers.empty?
             stock1 = Stock.create(resource_name: "Resource 1", amount: 0)
             stocks << stock1
-            producer1 = Producer.create(name: "Producer 1", amount: 1, base_rate: 5, price: 100)
+            producer1 = Producer.create(name: "Producer 1", amount: 0, base_price: 4, base_rate: 1.6, price: 4, growth_rate: 1.07)
             producers << producer1
         end
     end

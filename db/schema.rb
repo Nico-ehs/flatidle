@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_23_195941) do
+ActiveRecord::Schema.define(version: 2018_10_24_152447) do
 
   create_table "available_upgrades", force: :cascade do |t|
     t.integer "upgrade_id"
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 2018_10_23_195941) do
     t.integer "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "base_price"
+    t.float "growth_rate"
   end
 
   create_table "stocks", force: :cascade do |t|
