@@ -11,6 +11,8 @@ class Game < ApplicationRecord
     has_many :upgrade_purchases
     has_many :upgrades, through: :upgrade_purchases
 
+    include Unlock
+
 
     def output
         output_string=''
@@ -71,7 +73,7 @@ class Game < ApplicationRecord
         if stocks.empty? && producers.empty?
             stock1 = Stock.create(resource_name: "Resource 1", amount: 0)
             stocks << stock1
-            producer1 = Producer.create(name: "Producer 1", amount: 1, base_rate: 5, price: 100)
+            producer1 = Producer.create(name: "Producer 1", amount: 1, base_rate: 1, price: 4)
             producers << producer1
         end
     end
