@@ -1,6 +1,6 @@
 <h1>Games Page</h1>
 <% @game.update_time %>
-<p>Welcome <%= @game.user.name%></p>
+
 
 <!--<p><%= @game.user.name%></p>-->
 <p><%= "#{@game.seconds_passed} seconds passed" %></p>
@@ -21,4 +21,10 @@
     </p>
 <% end %>
 
+<% @game.unbought_upgrades.each do |available_upgrade|%>
+    <p><%= "#{(available_upgrade.upgrade.name)} : price " %></p>
+        <%= link_to "Buy", "available_upgrades/#{available_upgrade.id}/buy" %>
+    </p>
+<% end %>
 
+<p><%= "purchased upgrades #{@game.bought_upgrades.map {|el| el.upgrade.name}.join(', ')}" %></p>

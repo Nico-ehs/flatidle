@@ -12,6 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2018_10_23_195941) do
 
+  create_table "available_upgrades", force: :cascade do |t|
+    t.integer "upgrade_id"
+    t.integer "game_id"
+    t.boolean "purchased"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "games", force: :cascade do |t|
     t.datetime "start_time"
     t.datetime "updated_time"
@@ -34,13 +42,6 @@ ActiveRecord::Schema.define(version: 2018_10_23_195941) do
   create_table "stocks", force: :cascade do |t|
     t.string "resource_name"
     t.integer "amount"
-    t.integer "game_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "upgrade_purchases", force: :cascade do |t|
-    t.integer "upgrade_id"
     t.integer "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
