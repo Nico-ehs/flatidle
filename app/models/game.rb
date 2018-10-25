@@ -47,15 +47,14 @@ class Game < ApplicationRecord
     def run_ticks
         producer_income=0
         @production_multi=1
-        apply_unlocks
         self.producers.each do |producer|
             producer_income += (producer.amount*producer.ajusted_rate*self.seconds_passed)
         end
         main_stock=get_stock
-        main_stock+=
         @total_production=producer_income*@production_multi
         main_stock+=@total_production
         main_stock.save
+        apply_unlocks
     end
 
     def apply_upgrades
@@ -74,7 +73,7 @@ class Game < ApplicationRecord
             # set amount to 0 after adding generate button
             stock1 = Stock.create(resource_name: "Resource 1", amount: 10)
             stocks << stock1
-            producer1 = Producer.create(name: "Producer 1", amount: 0, base_price: 4, base_rate: 1.6, price: 4, growth_rate: 1.07)
+            producer1 = Producer.create(@@producers[0])
             producers << producer1
         end
     end

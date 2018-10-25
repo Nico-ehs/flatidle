@@ -11,13 +11,14 @@ module Unlock
     ]
 
 
+
     def apply_unlocks
         #needs to reduce hits to db
 
         curr_num_producers = self.producers.size
 
         if curr_num_producers > @@producers.size - 1
-            raise "no more unlocks"
+            return false
         end
         #gets next producer
         next_producer_info = @@producers[curr_num_producers]
@@ -30,5 +31,7 @@ module Unlock
             self.save!
         end
     end
+
+
 
 end
