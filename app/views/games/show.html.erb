@@ -15,9 +15,11 @@
 <% @game.producers.each do |producer|%>
     <p><%= "#{(producer.name)} : #{(producer.amount)}" %></p>
     <p><%= "Producing : #{(producer.amount)*(producer.base_rate)} per second " %></p>
-    <% if producer.valid_purchase%>
-        <%= link_to "Buy 1", "/producers/#{producer.id}/buy/#{1}" %>
-    <% end %>
+        <p> <%= price_text = "Price " + producer.price.to_s + " : "%>
+        <% if producer.valid_purchase%>
+            <%= link_to "Buy 1", "/producers/#{producer.id}/buy/#{1}" %>
+        <% end %>
+        </p>
     </p>
 <% end %>
 
