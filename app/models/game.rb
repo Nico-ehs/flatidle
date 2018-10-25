@@ -45,14 +45,14 @@ class Game < ApplicationRecord
 
 
     def run_ticks
-        producer_income=0
-        @production_multi=1
+        producer_income = 0
+        @production_multi = 1
         self.producers.each do |producer|
-            producer_income += (producer.amount*producer.ajusted_rate*self.seconds_passed)
+            producer_income += (producer.amount * producer.ajusted_rate * self.seconds_passed)
         end
         main_stock=get_stock
-        @total_production=producer_income*@production_multi
-        main_stock+=@total_production
+        @total_production = producer_income * @production_multi
+        main_stock += @total_production
         main_stock.save
         apply_unlocks
     end
@@ -83,12 +83,12 @@ end
 
 module UpgradeFuntions
     def x2_producer1
-        self.producers.select{|el| el.name='Producer1'}.each do |producer|
-            producer.adjusted_rate = producer.adjusted_rate*2
+        self.producers.select{|el| el.name='Producer 1'}.each do |producer|
+            producer.adjusted_rate = producer.adjusted_rate * 2
         end
     end
     
     def x10_all
-        @production_multi *=10
+        @production_multi *= 10
     end
 end
