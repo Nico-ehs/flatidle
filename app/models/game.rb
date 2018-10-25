@@ -2,7 +2,8 @@ class Game < ApplicationRecord
     # t.datetime :start_time
     # t.datetime :updated_time
     before_create :create_default_game
-
+    attr_accessor :production_multi
+    attr_accessor :total_production
     attr_accessor :seconds_passed
 
     belongs_to :user
@@ -14,27 +15,6 @@ class Game < ApplicationRecord
     has_many :upgrades, through: :available_upgrades
 
     include Unlock
-
-
-    def output
-        output_string=''
-        output_string+="\n"
-        output_string+="\n"+ "User: #{user.name}"
-        output_string+="\n"+ "#{seconds_passed} seconds passed"
-        self.stocks.each do |stock|
-            output_string+="\n"+ "#{stock.resource_name}: #{stock.amount}"
-        end
-        output_string+="\n"+ "Producers"
-        self.producers.each do |producer|
-            output_string+="\n"+ "#{producer.name}: #{producer.amount}"
-            output_string+="\n"+ "Producing : #{(producer.amount)*(producer.base_rate)} per second"
-        end
-        puts output_string
-        # output_string+="\n"+ "Upgrades"
-        # self.upgrades.each do |upgrade|
-        #   output_string+="\n"+ "#{upgrade.name}"
-        # end
-    end
 
     def get_stock
         stocks.first
@@ -48,7 +28,6 @@ class Game < ApplicationRecord
         available_upgrades.select {|el| el.purchased }
     end
     
-    
     def spend(price)
         get_stock.amount -= price
         get_stock.save
@@ -57,7 +36,7 @@ class Game < ApplicationRecord
     def update_time
         self.updated_time=self.created_at unless self.updated_time
         now = Time.now.round(0)
-        # apply_upgrades
+        apply_upgrades
         self.seconds_passed = (now - updated_time).to_i
         run_ticks
         self.updated_time=now
@@ -66,10 +45,14 @@ class Game < ApplicationRecord
 
 
     def run_ticks
-        main_stock = get_stock
+        producer_income=0
+        @production_multi=1
         self.producers.each do |producer|
-            main_stock.amount += (producer.amount*producer.base_rate*self.seconds_passed)
+            producer_income += (producer.amount*producer.ajusted_rate*self.seconds_passed)
         end
+        main_stock=get_stock
+        @total_production=producer_income*@production_multi
+        main_stock+=@total_production
         main_stock.save
         apply_unlocks
     end
@@ -77,9 +60,8 @@ class Game < ApplicationRecord
     def apply_upgrades
         self.producers.each do |producer|
             producer.adjusted_rate = producer.base_rate
-            producer.save
         end
-        upgrade_purchases.upgrades.each do |upgrade|
+        bought_upgrades.map{|el| el.upgrade}.each do |upgrade|
             self.send(upgrade.function_name)
         end
     end
@@ -100,10 +82,13 @@ end
 
 
 module UpgradeFuntions
-    def x2
-        self.producers.each do |producer|
-            producer.adjusted_rate = producer.adjusted_rate
-            producer.save
+    def x2_producer1
+        self.producers.select{|el| el.name='Producer1'}.each do |producer|
+            producer.adjusted_rate = producer.adjusted_rate*2
         end
+    end
+    
+    def x10_all
+        @production_multi *=10
     end
 end
