@@ -1,32 +1,37 @@
-<h1>Games Page</h1>
+
+<section class="column">
+<h1>Game Page</h1>
 <% @game.update_time %>
-
-
 <!--<p><%= @game.user.name%></p>-->
 <p><%= "#{@game.seconds_passed} seconds passed" %></p>
-
-
-<h1>Stocks</h1>
+<h1>Stock</h1>
 <% @game.stocks.each do |stock|%>
-    <p><%= "#{stock.resource_name}: #{stock.amount}" %></p>
+    <h2><%= number_with_delimiter(stock.amount, :delimiter => ',') %></h2>
 <% end %>
+</section>
 
+<section class="column">
 <h1>Producers</h1>
 <% @game.producers.each do |producer|%>
-    <p><%= "#{(producer.name)} : #{(producer.amount)}" %></p>
-    <p><%= "Producing : #{(producer.amount)*(producer.base_rate)} per second " %></p>
-        <p> <%= price_text = "Price " + producer.price.to_s + " : "%>
-        <% if producer.valid_purchase%>
-            <%= link_to "Buy 1", "/producers/#{producer.id}/buy/#{1}" %>
-        <% end %>
+    <div class="producer">
+        <p><%= producer.name %> x <b><%= producer.amount %></b></p>
+        <% amount_produced = (producer.amount)*(producer.adjusted_rate).round(0) %>
+        <p>Producing : <%= number_with_delimiter(amount_produced, :delimiter => ',')%> per second</p>
+        <p> <%= price_text = "Price " + number_with_delimiter(producer.price.round(0).to_s, :delimiter => ',') + " : " %>
+            <% if producer.valid_purchase%>
+                <%= link_to "Buy 1", "/producers/#{producer.id}/buy/#{1}" %>
+            <% end %>
         </p>
-    </p>
+    </div>
 <% end %>
+</section>
 
+
+<section class="column">
 <% @game.unbought_upgrades.each do |available_upgrade|%>
     <p><%= "#{(available_upgrade.upgrade.name)} : price " %></p>
-        <%= link_to "Buy", "available_upgrades/#{available_upgrade.id}/buy" %>
-    </p>
+    <%= link_to "Buy", "available_upgrades/#{available_upgrade.id}/buy" %>
+</p>
 <% end %>
-
 <p><%= "purchased upgrades #{@game.bought_upgrades.map {|el| el.upgrade.name}.join(', ')}" %></p>
+</section>

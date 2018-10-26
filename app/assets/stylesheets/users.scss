@@ -2,9 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import 'application';
+@import 'assets/vars';
 
-div {
+
+#login div {
 	background: $first-item;
 
 	width: 45%;
@@ -14,7 +15,7 @@ div {
 	margin: auto;
 	margin-top: 10%
 }
-h1{
+#login h1 {
 	padding-top: 15%;
 }
 

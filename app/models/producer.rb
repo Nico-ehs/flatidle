@@ -1,8 +1,8 @@
 class Producer < ApplicationRecord
 	belongs_to :game
 
-	attr_accessor :ajusted_value
-	attr_accessor :ajusted_rate
+	attr_accessor :adjusted_value
+	attr_accessor :adjusted_rate
 
 	GROWTH_MODIFIER = 0.1
 
