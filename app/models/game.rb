@@ -53,15 +53,15 @@ class Game < ApplicationRecord
     def get_stock
         stocks.first
     end
-    
-    def unbought_upgrades 
+
+    def unbought_upgrades
         available_upgrades.select {|el| !el.purchased }
     end
-    
-    def bought_upgrades 
+
+    def bought_upgrades
         available_upgrades.select {|el| el.purchased }
     end
-    
+
     def spend(price)
         get_stock.amount -= price
         get_stock.save
@@ -80,14 +80,16 @@ class Game < ApplicationRecord
 
 
     def run_ticks
-        producer_income=0
+
+
+        producer_income = 0
+        @production_multi = 1
         self.producers.each do |producer|
-            # binding.pry
-            producer_income += (producer.amount)*(producer.adjusted_rate)*(self.seconds_passed)
+            producer_income += (producer.amount * producer.adjusted_rate * self.seconds_passed)
         end
-        main_stock=get_stock
-        @total_production=producer_income*@production_multi
-        main_stock.amount+=@total_production
+        main_stock = get_stock
+        @total_production = producer_income * @production_multi
+        main_stock.amount += @total_production
         main_stock.save
         apply_unlocks
     end
