@@ -1,3 +1,37 @@
+module UpgradeFuntions
+    
+    def x_n_p_name(n,name)
+        self.producers.select{|el| el.name=name}.each do |producer|
+            # binding.pry
+            producer.adjusted_rate = producer.adjusted_rate*n
+        end
+    end
+    
+    def x4_p1
+        x_n_p_name(4,"Producer 1")
+    end
+    
+    def x4_p2
+        x_n_p_name(4,"Producer 2")
+    end
+    
+    def x8_p4
+        x_n_p_name(8,"Producer 2")
+    end
+    
+    def x10_all
+        @production_multi *=10
+    end
+    
+    def x_amount_p1
+        self.producers.select{|el| el.name='Producer 1'}.each do |producer|
+            producer.adjusted_rate = producer.adjusted_rate*producer.amount
+        end
+    end
+    
+end
+
+
 class Game < ApplicationRecord
     # t.datetime :start_time
     # t.datetime :updated_time
@@ -13,7 +47,7 @@ class Game < ApplicationRecord
 
     has_many :available_upgrades
     has_many :upgrades, through: :available_upgrades
-
+    include UpgradeFuntions
     include Unlock
 
     def get_stock
@@ -35,6 +69,7 @@ class Game < ApplicationRecord
 
     def update_time
         self.updated_time=self.created_at unless self.updated_time
+        reset_multi
         now = Time.now.round(0)
         apply_upgrades
         self.seconds_passed = (now - updated_time).to_i
@@ -45,6 +80,8 @@ class Game < ApplicationRecord
 
 
     def run_ticks
+
+
         producer_income = 0
         @production_multi = 1
         self.producers.each do |producer|
@@ -56,11 +93,16 @@ class Game < ApplicationRecord
         main_stock.save
         apply_unlocks
     end
-
-    def apply_upgrades
+    
+    def reset_multi
+        # binding.pry
         self.producers.each do |producer|
             producer.adjusted_rate = producer.base_rate
         end
+        @production_multi=1
+    end
+
+    def apply_upgrades
         bought_upgrades.map{|el| el.upgrade}.each do |upgrade|
             self.send(upgrade.function_name)
         end
@@ -81,14 +123,3 @@ class Game < ApplicationRecord
 end
 
 
-module UpgradeFuntions
-    def x2_producer1
-        self.producers.select{|el| el.name='Producer1'}.each do |producer|
-            producer.adjusted_rate = producer.adjusted_rate*2
-        end
-    end
-
-    def x10_all
-        @production_multi *=10
-    end
-end
