@@ -17,10 +17,16 @@ module UpgradeFunctions
     def x8_p4
         x_n_p_name(8,"Producer 2")
     end
+
+    def x5_all
+        @production_multi *=5
+    end
     
     def x10_all
         @production_multi *=10
     end
+
+
     
     def x_amount_p1
         self.producers.select{|el| el.name='Producer 1'}.each do |producer|

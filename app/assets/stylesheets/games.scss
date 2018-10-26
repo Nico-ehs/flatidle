@@ -5,9 +5,18 @@
 
 div.producer {
 	background: $first-item;
+	height: 12.5%;
+
+}
+
+div.upgrade {
+	background: $first-item;
+	height: 12.5%;
 }
 
 .column {
 	width: 31%;
 	float: left;
+	margin-left: 2%;
+	
 }

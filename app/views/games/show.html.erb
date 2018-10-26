@@ -15,8 +15,9 @@
 <% @game.producers.each do |producer|%>
     <div class="producer">
         <p><%= producer.name %> x <b><%= producer.amount %></b></p>
-        <% amount_produced = (producer.amount)*(producer.adjusted_rate).round(0) %>
-        <p>Producing : <%= number_with_delimiter(amount_produced, :delimiter => ',')%> per second</p>
+        <% amount_produced = (producer.amount)*(producer.adjusted_rate)%>
+        <% amount = 0 if !amount_produced %>
+        <p>Producing : <%= number_with_delimiter(amount_produced.round(0), :delimiter => ',')%> per second</p>
         <p> <%= price_text = "Price " + number_with_delimiter(producer.price.round(0).to_s, :delimiter => ',') + " : " %>
             <% if producer.valid_purchase%>
                 <%= link_to "Buy 1", "/producers/#{producer.id}/buy/#{1}" %>
@@ -28,10 +29,14 @@
 
 
 <section class="column">
+<h1> Upgrades </h1>
 <% @game.unbought_upgrades.each do |available_upgrade|%>
-    <p><%= "#{(available_upgrade.upgrade.name)} : price " %></p>
-    <%= link_to "Buy", "available_upgrades/#{available_upgrade.id}/buy" %>
-</p>
+    <div class="upgrade">
+        <% upgrade = available_upgrade.upgrade%>
+    <p><%= "#{(upgrade.name)}" %></p>
+    <p>Price <%= upgrade.price %> : <%= link_to "Buy", "available_upgrades/#{available_upgrade.id}/buy" %>
+    </p>
+    </div>
 <% end %>
-<p><%= "purchased upgrades #{@game.bought_upgrades.map {|el| el.upgrade.name}.join(', ')}" %></p>
+<p><%= "Purchased Upgrades: #{@game.bought_upgrades.map {|el| el.upgrade.name}.join(', ')}" %></p>
 </section>

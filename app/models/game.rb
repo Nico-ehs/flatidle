@@ -62,7 +62,7 @@ class Game < ApplicationRecord
         available_upgrades.select {|el| el.purchased }
     end
 
-    def spend(producerice)
+    def spend(price)
         get_stock.amount -= price
         get_stock.save
     end
@@ -99,7 +99,7 @@ class Game < ApplicationRecord
         self.producers.each do |producer|
             producer.adjusted_rate = producer.base_rate
         end
-        @production_multi=1
+        @production_multi = 1
     end
 
     def apply_upgrades
