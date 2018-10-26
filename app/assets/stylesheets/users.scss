@@ -2,11 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body {
-	background: #A1BECC
-}
+@import 'application';
+
 div {
-	background: #3E6B7F;
+	background: $first-item;
 
 	width: 45%;
 	height: 27%;
