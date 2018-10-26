@@ -9,11 +9,18 @@ RSpec.describe "Game" do
     @game = Game.create()
   end
 
-  context "attributes" do
-    it "has empty producers" do
-      expect(@game.producers).to eq(nil)
+
+
+  
+  context "create_default_game" do
+    it "starts empty" do
+      expect(@game.producers.size).to eq(0)
+    end
+    
+    
+    it "has default producers" do
+      expect(@game.producers.size).to eq(0)
     end
   end
 
- 
 end

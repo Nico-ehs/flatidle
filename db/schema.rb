@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 2018_10_24_152447) do
     t.string "name"
     t.integer "amount"
     t.float "base_rate"
-    t.float "adjusted_rate"
     t.integer "price"
     t.integer "game_id"
+    t.float "adjusted_rate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "base_price"

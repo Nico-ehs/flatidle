@@ -10,7 +10,14 @@ module Unlock
         {name: "Producer 8", amount: 0, base_price: 2149908480, base_rate: 58320, price: 2149908480, growth_rate: 1.09}
     ]
 
-
+    @@upgrades=[
+        {name: "x4 Producer 1", function_name: "x4_p1", price: 400},
+        {name: "x4 Producer 2", function_name: "x4_p2", price: 400},
+        {name: "x8 Producer 2", function_name: "x8_p4", price: 400},
+        {name: "x5 All", function_name: "x5 All", price: 400},
+        {name: "x_amount Producer 1", function_name: "x_amount_p1", price: 400}
+        ]
+    @@available_upgrades=[]
 
     def apply_unlocks
         #needs to reduce hits to db
@@ -30,8 +37,22 @@ module Unlock
             next_producer.save!
             self.save!
         end
+        upgrade_unlocks
     end
-
-
-
+    
+    
+    def upgrade_unlocks
+        
+        @@upgrades.each do |upgrade|
+            unless @@available_upgrades.include?(upgrade) 
+                new_upgrade=Upgrade.new(upgrade)
+                if get_stock.amount > 2*(new_upgrade.price)
+                    @@available_upgrades.push(upgrade)
+                    self.upgrades << new_upgrade
+                    new_upgrade.save!
+                    self.save!
+                end
+            end
+        end
+    end
 end
