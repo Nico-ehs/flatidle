@@ -1,2 +1,0 @@
-class UpgradePurchase < ApplicationRecord
-end

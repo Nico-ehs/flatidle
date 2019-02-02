@@ -1,2 +1,32 @@
-<h1>Games#show</h1>
-<p>Find me in app/views/games/show.html.erb</p>
+<h1>Games Page</h1>
+<% @game.update_time %>
+
+
+<!--<p><%= @game.user.name%></p>-->
+<p><%= "#{@game.seconds_passed} seconds passed" %></p>
+
+
+<h1>Stocks</h1>
+<% @game.stocks.each do |stock|%>
+    <p><%= "#{stock.resource_name}: #{stock.amount}" %></p>
+<% end %>
+
+<h1>Producers</h1>
+<% @game.producers.each do |producer|%>
+    <p><%= "#{(producer.name)} : #{(producer.amount)}" %></p>
+    <p><%= "Producing : #{(producer.amount)*(producer.base_rate)} per second " %></p>
+        <p> <%= price_text = "Price " + producer.price.to_s + " : "%>
+        <% if producer.valid_purchase%>
+            <%= link_to "Buy 1", "/producers/#{producer.id}/buy/#{1}" %>
+        <% end %>
+        </p>
+    </p>
+<% end %>
+
+<% @game.unbought_upgrades.each do |available_upgrade|%>
+    <p><%= "#{(available_upgrade.upgrade.name)} : price " %></p>
+        <%= link_to "Buy", "available_upgrades/#{available_upgrade.id}/buy" %>
+    </p>
+<% end %>
+
+<p><%= "purchased upgrades #{@game.bought_upgrades.map {|el| el.upgrade.name}.join(', ')}" %></p>
